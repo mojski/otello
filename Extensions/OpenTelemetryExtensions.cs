@@ -33,33 +33,12 @@ public static class OpenTelemetryExtensions
             ;
     }
 
-    public static void AddOpenTelemetryCollectorx(this WebApplicationBuilder builder, string serviceName, string serviceVersion)
-    {
-        builder.Logging.AddOpenTelemetry(cfg =>
-        {
-            cfg.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName, serviceVersion: serviceVersion))
-                .AddOtlpExporter(otlpConfig =>
-                {
-                    otlpConfig.Endpoint = new Uri("http://0.0.0.0:4317");
-                    //otlpConfig.Headers = "X-Seq-ApiKey=ZmnK7mpNojpgl2m6uG8V";
-                    otlpConfig.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
-                });
-        });
-
-        builder.Services.AddOpenTelemetry()
-            .ConfigureResource(resource => resource.AddService(serviceName, serviceVersion: serviceVersion))
-            .WithTracing(tracing => tracing.AddAspNetCoreInstrumentation()
-                .AddHttpClientInstrumentation()
-                .AddOtlpExporter(cfg =>
-                {
-                    cfg.Endpoint = new Uri("http://0.0.0.0:4317");
-                    //cfg.Headers = "X-Seq-ApiKey=ZmnK7mpNojpgl2m6uG8V";
-                    cfg.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.Grpc;
-                }))
-            .WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation()
-                .AddOtlpExporter());
-    }
-
+    /// <summary>
+    ///     If you want to log directly to seq
+    /// </summary>
+    /// <param name="builder"></param>
+    /// <param name="serviceName"></param>
+    /// <param name="serviceVersion"></param>
     public static void AddSeqTelemetry(this WebApplicationBuilder builder, string serviceName, string serviceVersion)
     {
         builder.Logging.AddOpenTelemetry(cfg =>
@@ -67,7 +46,6 @@ public static class OpenTelemetryExtensions
             cfg.SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(serviceName, serviceVersion: serviceVersion)).AddOtlpExporter(otlpConfig =>
             {
                 otlpConfig.Endpoint = new Uri("http://localhost:5341/ingest/otlp/v1/logs");
-                otlpConfig.Headers = "X-Seq-ApiKey=ZmnK7mpNojpgl2m6uG8V";
                 otlpConfig.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
             });
         });
@@ -79,7 +57,6 @@ public static class OpenTelemetryExtensions
                 .AddOtlpExporter(cfg =>
                 {
                     cfg.Endpoint = new Uri("http://localhost:5341/ingest/otlp/v1/traces");
-                    cfg.Headers = "X-Seq-ApiKey=ZmnK7mpNojpgl2m6uG8V";
                     cfg.Protocol = OpenTelemetry.Exporter.OtlpExportProtocol.HttpProtobuf;
                 }))
             .WithMetrics(metrics => metrics.AddAspNetCoreInstrumentation().AddOtlpExporter());
