@@ -1,10 +1,10 @@
 ## Otello web api
 
-.Net poc app showing how to use open telemetry colector and seq. In this scenario server app is observability angostic. App push logs to collector, then collector push data to seq (or other services in future).
+.Net poc app showing how to use open telemetry colector and seq. In this scenario server app is monitoring vendor angostic. App push logs to collector, then collector push data to seq (or other services in future).
 
 ```mermaid
 graph TD
-    otello web api["Serwer"] --> OTEL["Otel Collector"]
+    Serwer["Serwer"] --> OTEL["OTel Collector"]
     OTEL --> Seq
     OTEL --> Aspire
     OTEL --> OtherServices["Other Services"]

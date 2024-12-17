@@ -2,7 +2,7 @@
 
 using OpenTelemetry.Exporter;
 
-public class OpenTelemetryOptions
+public sealed class OpenTelemetryOptions
 {
     public static readonly string SECTION_NAME = "OpenTelemetry";
     public string Authorisation { get; init; } = string.Empty;
