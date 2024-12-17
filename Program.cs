@@ -1,17 +1,18 @@
+using Otello.WebApi.Controllers;
 using Otello.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-var ServiceName = "Otello";
-
-var ServiceVersion = "1.0.0";
-
 builder.Services.AddOpenTelemetry(builder.Configuration);
-//builder.AddSeqTelemetry(ServiceName, ServiceVersion);
 builder.Logging.UseOpenTelemetry(builder.Configuration);
-
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
-app.MapControllers();
+app.MapGet("/api/test", (ILogger<TestController> logger) =>
+{
+    var guid = Guid.NewGuid();
+    logger.LogError("Test error {guid}", guid);
+
+    return Results.Ok($"Test error {guid}");
+});
+
 app.Run();
