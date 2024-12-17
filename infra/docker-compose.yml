@@ -1,0 +1,41 @@
+networks:
+  otel:
+    name: otel
+    driver: bridge
+services:
+  otel:
+    container_name: otel
+    image: otel/opentelemetry-collector:latest
+    depends_on:
+      - seq
+    command: [ "--config=/etc/otel-collector-config.yml" ]
+    volumes:
+      - ./otel-collector-config.yml:/etc/otel-collector-config.yml
+    networks:
+      - otel
+    ports:
+      - "1888:1888"
+      - "8888:8888"
+      - "8889:8889"
+      - "13133:13133"
+      - "4317:4317"
+      - "4318:4318"
+      - "55679:55679"
+    restart: always
+    extra_hosts:
+      - host.docker.internal:host-gateway
+  seq:
+    container_name: seq
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - otel
+    volumes:
+      - seq_data:/data
+    ports:
+      - "5341:80"
+    restart: always
+volumes:
+  seq_data:
+  

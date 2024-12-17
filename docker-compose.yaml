@@ -1,0 +1,17 @@
+networks:
+  otel:
+    name: otel
+    external: true
+services:
+  otello:
+    build: .
+    image: otello:local
+    environment:
+      OPENTELEMETRY__ENDPOINT: "http://host.docker.internal:4317"
+    ports:
+      - "5081:5080"
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: unless-stopped
+    networks:
+      - otel
