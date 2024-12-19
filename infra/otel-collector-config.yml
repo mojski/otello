@@ -26,7 +26,6 @@ exporters:
       insecure: true
     headers:
       x-otlp-api-key: ${env:ASPIRE_API_KEY}
-      #x-otlp-api-key: u81jrTSJLOI269CIBoEC3Mk9XGuByLM9c8bsPUDxKMbRPNOUZeA7lCaImsGC3qoqAc9cf0TFdJamjuJ3ZMBhr8G1p4KaEq6LkSw7K209WZSgDk67KOKYNHwZQtARSN7i
 
 extensions:
   health_check:
