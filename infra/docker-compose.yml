@@ -8,6 +8,7 @@ services:
     image: otel/opentelemetry-collector:latest
     depends_on:
       - seq
+      - aspire
     command: [ "--config=/etc/otel-collector-config.yml" ]
     volumes:
       - ./otel-collector-config.yml:/etc/otel-collector-config.yml
@@ -28,7 +29,7 @@ services:
     container_name: seq
     image: datalust/seq:latest
     environment:
-      - ACCEPT_EULA=Y
+      ACCEPT_EULA: Y
     networks:
       - otel
     volumes:
@@ -36,6 +37,23 @@ services:
     ports:
       - "5341:80"
     restart: always
+
+  aspire:
+    container_name: aspire
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest
+    environment:
+      ASPNETCORE__URLS: http://+:18888
+      DASHBOARD__OTLP__AUTHMODE: ApiKey
+      DOTNET_DASHBOARD__OTLP__AUTHMODE: ApiKey
+      DOTNET_DASHBOARD__OTLP__ENDPOINT__URL: http://+:18889
+      DOTNET_DASHBOARD__OTLP__HTTP__ENDPOINT__URL: http://+:18890
+      DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: true
+      DASHBOARD__OTLP__PRIMARYAPIKEY: "${ASPIRE_API_KEY:-<<aspire-secret-api-key>>}"
+    networks:
+      - otel
+    ports:
+      - "18888:18888"
+    restart: always
+
 volumes:
-  seq_data:
-  
+    seq_data:

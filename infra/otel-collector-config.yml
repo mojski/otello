@@ -5,9 +5,10 @@ receivers:
         endpoint: 0.0.0.0:4317
       http:
         endpoint: 0.0.0.0:4318
+
 processors:
   batch:
- 
+
 exporters:
   debug:
     verbosity: detailed
@@ -17,24 +18,33 @@ exporters:
     endpoint: http://seq/ingest/otlp
     tls:
       insecure: true
+    headers:
+      x-otlp-api-key: "b2KEjSeyIwCaEHlBM1Gj"
+  otlp:
+    endpoint: aspire:18889
+    tls:
+      insecure: true
+    headers:
+      x-otlp-api-key: ${env:ASPIRE_API_KEY}
+      #x-otlp-api-key: u81jrTSJLOI269CIBoEC3Mk9XGuByLM9c8bsPUDxKMbRPNOUZeA7lCaImsGC3qoqAc9cf0TFdJamjuJ3ZMBhr8G1p4KaEq6LkSw7K209WZSgDk67KOKYNHwZQtARSN7i
+
 extensions:
   health_check:
   pprof:
   zpages:
- 
+
 service:
   extensions: [health_check, pprof, zpages]
   pipelines:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlphttp]
+      exporters: [debug, otlp, otlphttp]
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug]
+      exporters: [debug, otlp]
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlphttp]
-      
+      exporters: [debug, otlp, otlphttp]
