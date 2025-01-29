@@ -14,18 +14,22 @@ exporters:
     verbosity: detailed
     sampling_initial: 5
     sampling_thereafter: 200
-  otlphttp:
-    endpoint: http://seq/ingest/otlp
-    tls:
-      insecure: true
-    headers:
-      x-otlp-api-key: "b2KEjSeyIwCaEHlBM1Gj"
+  # otlphttp:
+  #   endpoint: http://seq/ingest/otlp
+  #   tls:
+  #     insecure: true
+  #   headers:
+  #     x-otlp-api-key: "b2KEjSeyIwCaEHlBM1Gj"
   otlp:
     endpoint: aspire:18889
     tls:
       insecure: true
     headers:
       x-otlp-api-key: ${env:ASPIRE_API_KEY}
+  otlphttp:
+    endpoint: http://loki/otlp
+    tls:
+      insecure: true
 
 extensions:
   health_check:
