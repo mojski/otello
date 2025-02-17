@@ -14,20 +14,22 @@ exporters:
     verbosity: detailed
     sampling_initial: 5
     sampling_thereafter: 200
-  # otlphttp:
-  #   endpoint: http://seq/ingest/otlp
-  #   tls:
-  #     insecure: true
-  #   headers:
-  #     x-otlp-api-key: "b2KEjSeyIwCaEHlBM1Gj"
+  prometheus:
+    endpoint: otel:8889
+  otlphttp:
+    endpoint: http://seq/ingest/otlp
+    tls:
+      insecure: true
+    headers:
+      x-otlp-api-key: "b2KEjSeyIwCaEHlBM1Gj"
   otlp:
     endpoint: aspire:18889
     tls:
       insecure: true
     headers:
       x-otlp-api-key: ${env:ASPIRE_API_KEY}
-  otlphttp:
-    endpoint: http://loki/otlp
+  otlphttp/logs:
+    endpoint: http://loki:3100/otlp
     tls:
       insecure: true
 
@@ -35,6 +37,7 @@ extensions:
   health_check:
   pprof:
   zpages:
+     endpoint: otel:55679
 
 service:
   extensions: [health_check, pprof, zpages]
@@ -46,8 +49,8 @@ service:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlp]
+      exporters: [debug, otlp, prometheus]
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlp, otlphttp]
+      exporters: [debug, otlp, otlphttp/logs]
