@@ -18,6 +18,6 @@ jobs:
         with:
           dotnet-version: 9.0.x
       - name: Restore dependencies
-        run: dotnet restore src/ButtonShop.sln
+        run: dotnet restore src/Otello.sln
       - name: Build the project
-        run: dotnet build src/ButtonShop.sln --configuration Release --no-restore
+        run: dotnet build src/Otello.sln --configuration Release --no-restore
