@@ -1,5 +1,5 @@
 #build
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 COPY WebApi/Otello.WebApi.csproj Otello.WebApi.csproj
@@ -10,7 +10,7 @@ COPY . .
 RUN dotnet build WebApi/Otello.WebApi.csproj --configuration Release --output /app/build
 RUN dotnet publish WebApi/Otello.WebApi.csproj --configuration Release --output /app/publish
 # serve
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
 
 WORKDIR /app
 
