@@ -6,14 +6,14 @@
 graph TD
     Serwer["Serwer"] --"grpc 4317"--> OTEL["Otel Collector"]
     OTEL --"HTTP 5341"--> Seq
-    OTEL --"grpc"--> Aspire
-    OTEL --"HTTP"--> node_1
-    OTEL --"grpc"--> node_2
+    OTEL --"grpc 18889"--> Aspire
+    OTEL --"HTTP 3100"--> node_1
+    OTEL --"grpc 4317"--> node_2
 
-    node_1["Loki\nhttp://loki:3100/otlp"]
-    node_2["Tempo\nhttp://tempo:4317"]
-    Seq["Seq\nhttp://seq/ingest/otlp"]
-    Aspire["Aspire\naspire:18889"]
+    node_1["Loki"]
+    node_2["Tempo"]
+    Seq["Seq"]
+    Aspire["Aspire"]
 ```
 
 Steps to run
