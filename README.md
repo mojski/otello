@@ -32,3 +32,7 @@ Steps to run
 Use {service_name="Otello"} query
 
 ![alt text](/doc/readme_assets/gl.png)
+
+## Grafana Tempo
+
+![alt text](/doc/readme_assets/tempo.png)

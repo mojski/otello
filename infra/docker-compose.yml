@@ -74,6 +74,20 @@ services:
       - ALLOW_STRUCTURED_METADATA=true
     networks:
       - otel
+  tempo:
+    image: grafana/tempo:latest
+    container_name: tempo
+    volumes:
+      - ./tempo-config.yaml:/etc/tempo-config.yaml
+      - ./tempo-data:/tmp/tempo
+    command: [ "-config.file=/etc/tempo-config.yaml" ]
+    ports:
+      - "3200:3200"  # grafana API
+      - "4319:4317"  # OTLP gRPC
+      - "4320:4318"  # OTLP HTTP
+      - "9411:9411"  # Zipkin API
+    networks:
+      - otel
 volumes:
     seq_data:
     prom_data:

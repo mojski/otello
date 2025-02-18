@@ -30,6 +30,11 @@ exporters:
     endpoint: http://loki:3100/otlp
     tls:
       insecure: true
+  
+  otlp/tempo:
+    endpoint: "http://tempo:4317"
+    tls:
+      insecure: true
 
 extensions:
   health_check:
@@ -43,7 +48,7 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlp, otlphttp]
+      exporters: [debug, otlp, otlphttp, otlp/tempo]
     metrics:
       receivers: [otlp]
       processors: [batch]
