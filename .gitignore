@@ -488,4 +488,3 @@ $RECYCLE.BIN/
 
 #Sonar
 .sonarqube
-/infra/tempo-data/single-tenant
