@@ -11,7 +11,7 @@ services:
       - aspire
     environment:
       - OTEL_LOG_LEVEL=debug
-    command: [ "--config=/etc/otel-collector-config.yml", "--set=service.telemetry.logs.level=debug"]
+    command: --config=/etc/otel-collector-config.yml
     volumes:
       - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     networks:
@@ -70,28 +70,10 @@ services:
     ports:
       - "3100:3100"
       - "9095:9095"
-    # command: ["-config.file=/etc/loki/local-config.yml", "-config.expand-env=true"]
-    # volumes:
-    #   - ./local-config.yml:/etc/loki/local-config.yml
     environment:
       - ALLOW_STRUCTURED_METADATA=true
     networks:
       - otel
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    ports:
-      - 9090:9090
-    networks:
-      - otel
-
-    restart: unless-stopped
-    volumes:
-      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prom_data:/prometheus  
-  
 volumes:
     seq_data:
     prom_data:
