@@ -9,7 +9,9 @@ services:
     depends_on:
       - seq
       - aspire
-    command: [ "--config=/etc/otel-collector-config.yml" ]
+    environment:
+      - OTEL_LOG_LEVEL=debug
+    command: --config=/etc/otel-collector-config.yml
     volumes:
       - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     networks:
@@ -51,5 +53,27 @@ services:
       - otel
     ports:
       - "18888:18888"
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    networks:
+      - otel
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+
+  loki:
+    container_name: loki
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+      - "9095:9095"
+    environment:
+      - ALLOW_STRUCTURED_METADATA=true
+    networks:
+      - otel
 volumes:
     seq_data:
+    prom_data:

@@ -18,4 +18,17 @@ Steps to run
 
 - run application, you should see starting logs at localhost:5341 seq UI. 
 
-![alt text](/readme_assets/image.png)
+- hit http://localhost:5080/api/test (GET) to trigger error log
+
+## Seq
+
+![alt text](/doc/readme_assets/seq.png)
+
+## .NET Aspire
+![alt text](/doc/readme_assets/asp.png)
+
+## Grafana Loki
+
+Use {service_name="Otello"} query
+
+![alt text](/doc/readme_assets/gl.png)

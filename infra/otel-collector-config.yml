@@ -26,11 +26,16 @@ exporters:
       insecure: true
     headers:
       x-otlp-api-key: ${env:ASPIRE_API_KEY}
+  otlphttp/logs:
+    endpoint: http://loki:3100/otlp
+    tls:
+      insecure: true
 
 extensions:
   health_check:
   pprof:
   zpages:
+     endpoint: otel:55679
 
 service:
   extensions: [health_check, pprof, zpages]
@@ -46,4 +51,4 @@ service:
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug, otlp, otlphttp]
+      exporters: [debug, otlp, otlphttp/logs]
