@@ -4,10 +4,16 @@
 
 ```mermaid
 graph TD
-    Serwer["Serwer"] --> OTEL["OTel Collector"]
-    OTEL --> Seq
-    OTEL --> Aspire
-    OTEL --> OtherServices["Other Services"]
+    Serwer["Serwer"] --"grpc 4317"--> OTEL["Otel Collector"]
+    OTEL --"HTTP 5341"--> Seq
+    OTEL --"grpc"--> Aspire
+    OTEL --"HTTP"--> node_1
+    OTEL --"grpc"--> node_2
+
+    node_1["Loki\nhttp://loki:3100/otlp"]
+    node_2["Tempo\nhttp://tempo:4317"]
+    Seq["Seq\nhttp://seq/ingest/otlp"]
+    Aspire["Aspire\naspire:18889"]
 ```
 
 Steps to run
@@ -28,11 +34,16 @@ Steps to run
 ![alt text](/doc/readme_assets/asp.png)
 
 ## Grafana Loki
-
-Use {service_name="Otello"} query
-
+query used:
+```json
+{service_name="Otello"}
+```
 ![alt text](/doc/readme_assets/gl.png)
 
 ## Grafana Tempo
+query used:
 
+```json
+{resource.service.name="Otello" && name="GET /api/test"} 
+```
 ![alt text](/doc/readme_assets/tempo.png)
