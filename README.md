@@ -35,7 +35,7 @@ Steps to run
 
 ## Grafana Loki
 query used:
-```json
+```
 {service_name="Otello"}
 ```
 ![alt text](/doc/readme_assets/gl.png)
@@ -43,7 +43,7 @@ query used:
 ## Grafana Tempo
 query used:
 
-```json
+```
 {resource.service.name="Otello" && name="GET /api/test"} 
 ```
 ![alt text](/doc/readme_assets/tempo.png)
