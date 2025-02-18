@@ -79,7 +79,7 @@ services:
     container_name: tempo
     volumes:
       - ./tempo-config.yaml:/etc/tempo-config.yaml
-      - ./tempo-data:/tmp/tempo
+      #- ./tempo-data:/tmp/tempo
     command: [ "-config.file=/etc/tempo-config.yaml" ]
     ports:
       - "3200:3200"  # grafana API
