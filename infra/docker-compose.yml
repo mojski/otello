@@ -90,4 +90,3 @@ services:
       - otel
 volumes:
     seq_data:
-    prom_data:
