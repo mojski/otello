@@ -4,7 +4,7 @@
 
 ```mermaid
 graph TD
-    Serwer["Serwer"] --"grpc 4317"--> OTEL["Otel Collector"]
+    Serwer["Server"] --"grpc 4317"--> OTEL["Otel Collector"]
     OTEL --"HTTP 5341"--> Seq
     OTEL --"grpc 18889"--> Aspire
     OTEL --"HTTP 3100"--> node_1
